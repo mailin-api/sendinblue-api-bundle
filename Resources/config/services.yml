@@ -1,0 +1,7 @@
+parameters:
+   sendinblue_api.class: SendinBlue\SendinBlueApiBundle\Wrapper\Mailin
+
+services:
+   sendinblue_api:
+       class: %sendinblue_api.class%
+       arguments: [%sendinblue_api_key%]
