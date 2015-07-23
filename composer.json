@@ -18,5 +18,10 @@
 	},
 	"autoload": {
 		"psr-4": { "SendinBlue\\SendinBlueApiBundle\\": "" }
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.0.x-dev"
+		}
 	}
 }
