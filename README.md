@@ -16,7 +16,7 @@ Add SendinBlueApiBundle in your `composer.json`:
 ```json
     {
         "require": {
-            "sendinblue/sendinblue-api-bundle": "dev-master"
+            "sendinblue/sendinblue-api-bundle": "1.0.*"
         }
     }
 ```
