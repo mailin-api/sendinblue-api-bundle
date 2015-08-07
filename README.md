@@ -13,24 +13,8 @@ This version of the bundle requires Symfony 2.x.
 
 Add SendinBlueApiBundle in your `composer.json`:
 
-```json
-    {
-        "require": {
-            "sendinblue/sendinblue-api-bundle": "1.0.*"
-        }
-    }
-```
-
-Now tell composer to download the bundle by running the command:
-
 ```bash
-    $ php composer.phar update
-```
-
-OR
-
-```bash
-    $ composer update
+$ composer require "sendinblue/sendinblue-api-bundle"
 ```
 
 Composer will install the bundle to your project's `vendor/sendinblue` directory.
@@ -41,17 +25,15 @@ Composer will install the bundle to your project's `vendor/sendinblue` directory
 In the kernel `app/AppKernel.php`:
 
 ```php
-    <?php
+<?php
 
-    public function registerBundles()
-    {
-        $bundles = array(
-            // ...
-            new SendinBlue\SendinBlueApiBundle\SendinBlueApiBundle(),
-        );
-    }
-    ...
-    ?>
+public function registerBundles()
+{
+    $bundles = array(
+        // ...
+        new SendinBlue\SendinBlueApiBundle\SendinBlueApiBundle(),
+    );
+}
 ```
 
 
@@ -60,7 +42,7 @@ In the kernel `app/AppKernel.php`:
 In your `app/config/parameters.yml`:
 
 ```yaml
-        sendinblue_api_key: <Your access key>
+sendinblue_api_key: <Your access key>
 ```
 
 
@@ -70,44 +52,43 @@ The API is available with the `sendinblue_api` service.
 To access it, add in your controller (or elsewhere):
 
 ```php
-    <?php
-        $sendinblue = $this->get('sendinblue_api');
-    ?>
+<?php
+$sendinblue = $this->get('sendinblue_api');
 ```
 
-###Example
+### Example
 
-- Get your account information
+#### Get your account information
+
 ```php
-    <?php
-        $sendinblue = $this->get('sendinblue_api');
+<?php
+$sendinblue = $this->get('sendinblue_api');
 
-        $result = $sendinblue->get_account();
-        var_dump($result);
-    ?>
+$result = $sendinblue->get_account();
+// var_dump($result);
 ```
 
-- To send email
+#### To send email
 ```php
-    <?php
-        $sendinblue = $this->get('sendinblue_api');
+<?php
 
-        $data = array(
-                "to"=>array("to@example.net"=>"to whom!"),
-                "cc"=>array("cc@example.net"=>"cc whom!"),
-                "bcc"=>array("bcc@example.net"=>"bcc whom!"),
-                "replyto"=>array("replyto@email.com","reply to!"),
-                "from"=>array("from@email.com","from email!"),
-                "subject"=>"My subject",
-                "text"=>"This is the text",
-                "html"=>"This is the <h1>HTML</h1>",
-                "attachment"=>array(),
-                "headers"=>array("Content-Type"=> "text/html; charset=iso-8859-1","X-Ewiufkdsjfhn"=> "hello","X-Custom" => "Custom")
-            );
+$sendinblue = $this->get('sendinblue_api');
 
-        $result = $sendinblue->send_email($data);
-        var_dump($result);
-    ?>
+$data = array(
+        "to"=>array("to@example.net"=>"to whom!"),
+        "cc"=>array("cc@example.net"=>"cc whom!"),
+        "bcc"=>array("bcc@example.net"=>"bcc whom!"),
+        "replyto"=>array("replyto@email.com","reply to!"),
+        "from"=>array("from@email.com","from email!"),
+        "subject"=>"My subject",
+        "text"=>"This is the text",
+        "html"=>"This is the <h1>HTML</h1>",
+        "attachment"=>array(),
+        "headers"=>array("Content-Type"=> "text/html; charset=iso-8859-1","X-Ewiufkdsjfhn"=> "hello","X-Custom" => "Custom")
+);
+
+$result = $sendinblue->send_email($data);
+// var_dump($result);
 ```
 
 ## Support and Feedback
