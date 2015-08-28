@@ -137,7 +137,7 @@ class Mailin
     /*
         Get Reseller child Account.
         @param {Array} data contains php array with key value pair.
-        @options data {String} auth_key: 16 character authorization key of Reseller child. Example : To get the details of more than one child account, use, {“key1″:”abC01De2fGHI3jkL”,”key2″:”mnO45Pq6rSTU7vWX”} [Mandatory]
+        @options data {String} auth_key: 16 character authorization key of Reseller child. Example : To get the details of more than one child account, use, {"key1":"abC01De2fGHI3jkL","key2":"mnO45Pq6rSTU7vWX"} [Mandatory]
     */
     public function get_reseller_child($data)
     {
@@ -201,6 +201,9 @@ class Mailin
         @options data {Array} exclude_list: These are the lists which must be excluded from the campaign [Optional]
         @options data {String} attachment_url: Provide the absolute url of the attachment [Optional]
         @options data {Integer} inline_image: Status of inline image. Possible values = 0 (default) & 1. inline_image = 0 means image can’t be embedded, & inline_image = 1 means image can be embedded, in the email [Optional]
+        @options data {Integer} mirror_active: Status of mirror links in campaign. Possible values = 0 & 1 (default). mirror_active = 0 means mirror links are deactivated, & mirror_active = 1 means mirror links are activated, in the campaign [Optional]
+        @options data {Integer} send_now: Flag to send campaign now. Possible values = 0 (default) & 1. send_now = 0 means campaign can’t be send now, & send_now = 1 means campaign ready to send now [Optional]
+
     */
     public function create_campaign($data)
     {
@@ -226,6 +229,8 @@ class Mailin
         @options data {Array} exclude_list: These are the lists which must be excluded from the campaign [Optional]
         @options data {String} attachment_url: Provide the absolute url of the attachment [Optional]
         @options data {Integer} inline_image: Status of inline image. Possible values = 0 (default) & 1. inline_image = 0 means image can’t be embedded, & inline_image = 1 means image can be embedded, in the email [Optional]
+        @options data {Integer} mirror_active: Status of mirror links in campaign. Possible values = 0 & 1 (default). mirror_active = 0 means mirror links are deactivated, & mirror_active = 1 means mirror links are activated, in the campaign [Optional]
+        @options data {Integer} send_now: Flag to send campaign now. Possible values = 0 (default) & 1. send_now = 0 means campaign can’t be send now, & send_now = 1 means campaign ready to send now [Optional]
     */
     public function update_campaign($data)
     {   
@@ -250,7 +255,7 @@ class Mailin
         @options data {Integer} id: Id of campaign to send its report [Mandatory]
         @options data {String} lang: Language of email content. Possible values – fr (default), en, es, it & pt [Optional]
         @options data {String} email_subject: Message subject [Mandatory]
-        @options data {Array} email_to: Email address of the recipient(s). Example: “test@example.net”. You can use commas to separate multiple recipients [Mandatory]
+        @options data {Array} email_to: Email address of the recipient(s). Example: "test@example.net". You can use commas to separate multiple recipients [Mandatory]
         @options data {String} email_content_type: Body of the message in text/HTML version. Possible values – text & html [Mandatory]
         @options data {Array} email_bcc: Same as email_to but for Bcc [Optional]
         @options data {Array} email_cc: Same as email_to but for Cc [Optional]
@@ -292,7 +297,7 @@ class Mailin
         Send a Test Campaign.
         @param {Array} data contains php array with key value pair.
         @options data {Integer} id: Id of the campaign [Mandatory]
-        @options data {Array} emails: Email address of recipient(s) existing in the one of the lists & should not be blacklisted. Example: “test@example.net”. You can use commas to separate multiple recipients [Mandatory]
+        @options data {Array} emails: Email address of recipient(s) existing in the one of the lists & should not be blacklisted. Example: "test@example.net". You can use commas to separate multiple recipients [Mandatory]
     */
     public function send_bat_email($data)
     {
@@ -333,6 +338,8 @@ class Mailin
         @options data {Integer} recurring: Type of trigger campaign. Possible values = 0 (default) & 1. recurring = 0 means contact can receive the same Trigger campaign only once, & recurring = 1 means contact can receive the same Trigger campaign several times [Optional]
         @options data {String} attachment_url: Provide the absolute url of the attachment [Optional]
         @options data {Integer} inline_image: Status of inline image. Possible values = 0 (default) & 1. inline_image = 0 means image can’t be embedded, & inline_image = 1 means image can be embedded, in the email [Optional]
+        @options data {Integer} mirror_active: Status of mirror links in campaign. Possible values = 0 & 1 (default). mirror_active = 0 means mirror links are deactivated, & mirror_active = 1 means mirror links are activated, in the campaign [Optional]
+        @options data {Integer} send_now: Flag to send campaign now. Possible values = 0 (default) & 1. send_now = 0 means campaign can’t be send now, & send_now = 1 means campaign ready to send now [Optional]
     */
     public function create_trigger_campaign($data)
     {
@@ -359,6 +366,8 @@ class Mailin
         @options data {Integer} recurring: Type of trigger campaign. Possible values = 0 (default) & 1. recurring = 0 means contact can receive the same Trigger campaign only once, & recurring = 1 means contact can receive the same Trigger campaign several times [Optional]
         @options data {String} attachment_url: Provide the absolute url of the attachment [Optional]
         @options data {Integer} inline_image: Status of inline image. Possible values = 0 (default) & 1. inline_image = 0 means image can’t be embedded, & inline_image = 1 means image can be embedded, in the email [Optional]
+        @options data {Integer} mirror_active: Status of mirror links in campaign. Possible values = 0 & 1 (default). mirror_active = 0 means mirror links are deactivated, & mirror_active = 1 means mirror links are activated, in the campaign [Optional]
+        @options data {Integer} send_now: Flag to send campaign now. Possible values = 0 (default) & 1. send_now = 0 means campaign can’t be send now, & send_now = 1 means campaign ready to send now [Optional]
     */
     public function update_trigger_campaign($data)
     {
@@ -482,7 +491,7 @@ class Mailin
         Display details of all users for the given lists.
         @param {Array} data contains php array with key value pair.
         @options data {Array} listids: These are the list ids to get their data. The ids found will display records [Mandatory]
-        @options data {String} timestamp: This is date-time filter to fetch modified user records >= this time. Valid format Y-m-d H:i:s. Example: “2015-05-22 14:30:00″ [Optional]
+        @options data {String} timestamp: This is date-time filter to fetch modified user records >= this time. Valid format Y-m-d H:i:s. Example: "2015-05-22 14:30:00" [Optional]
         @options data {Integer} page: Maximum number of records per request is 500, if in your list there are more than 500 users then you can use this parameter to get next 500 results [Optional]
         @options data {Integer} page_limit: This should be a valid number between 1-500 [Optional]
     */
@@ -495,7 +504,7 @@ class Mailin
         Add already existing users in the SendinBlue contacts to the list.
         @param {Array} data contains php array with key value pair.
         @options data {Integer} id: Id of list to link users in it [Mandatory]
-        @options data {Array} users: Email address of the already existing user(s) in the SendinBlue contacts. Example: “test@example.net”. You can use commas to separate multiple users [Mandatory]
+        @options data {Array} users: Email address of the already existing user(s) in the SendinBlue contacts. Example: "test@example.net". You can use commas to separate multiple users [Mandatory]
     */
 
     public function add_users_list($data)
@@ -509,7 +518,7 @@ class Mailin
         Delete already existing users in the SendinBlue contacts from the list.
         @param {Array} data contains php array with key value pair.
         @options data {Integer} id: Id of list to unlink users from it [Mandatory]
-        @options data {Array} users: Email address of the already existing user(s) in the SendinBlue contacts to be modified. Example: “test@example.net”. You can use commas to separate multiple users [Mandatory]
+        @options data {Array} users: Email address of the already existing user(s) in the SendinBlue contacts to be modified. Example: "test@example.net". You can use commas to separate multiple users [Mandatory]
     */
     public function delete_users_list($data)
     {
@@ -542,7 +551,7 @@ class Mailin
         @param {Array} data contains php array with key value pair.
         @options data {String} type: Type of attribute. Possible values – normal, transactional, category, calculated & global ( case sensitive ) [Mandatory]
         @options data {Array} data: The name and data type of ‘normal’ & ‘transactional’ attribute to be created in your SendinBlue account. It should be sent as an associative array. Example: array(‘ATTRIBUTE_NAME1′ => ‘DATA_TYPE1′, ‘ATTRIBUTE_NAME2’=> ‘DATA_TYPE2′).
-        The name and data value of ‘category’, ‘calculated’ & ‘global’, should be sent as JSON string. Example: ‘[{ “name”:”ATTRIBUTE_NAME1″, “value”:”Attribute_value1″ }, { “name”:”ATTRIBUTE_NAME2″, “value”:”Attribute_value2″ }]’. You can use commas to separate multiple attributes [Mandatory]
+        The name and data value of ‘category’, ‘calculated’ & ‘global’, should be sent as JSON string. Example: ‘[{ "name":"ATTRIBUTE_NAME1", "value":"Attribute_value1" }, { "name":"ATTRIBUTE_NAME2", "value":"Attribute_value2" }]’. You can use commas to separate multiple attributes [Mandatory]
     */
     public function create_attribute($data)
     {
@@ -565,7 +574,7 @@ class Mailin
         Create a new user if an email provided as input, doesn’t exists in the contact list of your SendinBlue account, otherwise it will update the existing user.
         @param {Array} data contains php array with key value pair.
         @options data {String} email: Email address of the user to be created in SendinBlue contacts. Already existing email address of user in the SendinBlue contacts to be modified [Mandatory]
-        @options data {Array} attributes: The name of attribute present in your SendinBlue account. It should be sent as an associative array. Example: array(“NAME”=>”name”). You can use commas to separate multiple attributes [Optional]
+        @options data {Array} attributes: The name of attribute present in your SendinBlue account. It should be sent as an associative array. Example: array("NAME"=>"name"). You can use commas to separate multiple attributes [Optional]
         @options data {Integer} blacklisted: This is used to blacklist/ Unblacklist a user. Possible values – 0 & 1. blacklisted = 1 means user has been blacklisted [Optional]
         @options data {Array} listid: The list id(s) to be linked from user [Optional]
         @options data {Array} listid_unlink: The list id(s) to be unlinked from user [Optional]
@@ -600,7 +609,7 @@ class Mailin
         Import Users Information.
         @param {Array} data contains php array with key value pair.
         @options data {String} url: The URL of the file to be imported. Possible file types – .txt, .csv [Mandatory: if body is empty]
-        @options data {String} body: The Body with csv content to be imported. Example: ‘NAME;SURNAME;EMAIL\n”Name1″;”Surname1″;”example1@example.net”\n”Name2″;”Surname2″;”example2@example.net”‘, where \n separates each user data. You can use semicolon to separate multiple attributes [Mandatory: if url is empty]
+        @options data {String} body: The Body with csv content to be imported. Example: ‘NAME;SURNAME;EMAIL\n"Name1";"Surname1";"example1@example.net"\n"Name2";"Surname2";"example2@example.net"‘, where \n separates each user data. You can use semicolon to separate multiple attributes [Mandatory: if url is empty]
         @options data {Array} listids: These are the list ids in which the the users will be imported [Mandatory: if name is empty]
         @options data {String} notify_url: URL that will be called once the import process is finished [Optional] In notify_url, we are sending the content using POST method
         @options data {String} name: This is new list name which will be created first & then users will be imported in it [Mandatory: if listids is empty]
@@ -614,8 +623,8 @@ class Mailin
     /*
         Export Users Information.
         @param {Array} data contains php array with key value pair.
-        @options data {String} export_attrib: The name of attribute present in your SendinBlue account. You can use commas to separate multiple attributes. Example: “EMAIL,NAME,SMS” [Optional]
-        @options data {String} filter: Filter can be added to export users. Example: “{\”blacklisted\”:1}”, will export all blacklisted users [Mandatory]
+        @options data {String} export_attrib: The name of attribute present in your SendinBlue account. You can use commas to separate multiple attributes. Example: "EMAIL,NAME,SMS" [Optional]
+        @options data {String} filter: Filter can be added to export users. Example: "{\"blacklisted\":1}", will export all blacklisted users [Mandatory]
         @options data {String} notify_url: URL that will be called once the export process is finished [Optional]
     */
     public function export_users($data)
@@ -647,7 +656,7 @@ class Mailin
     /*
         To retrieve details of all webhooks.
         @param {Array} data contains php array with key value pair.
-        @options data {String} is_plat: Flag to get webhooks. Possible values – 0 & 1. Example: to get Transactional webhooks, use $is_plat=0, to get Marketing webhooks, use $is_plat=1, & to get all webhooks, use $is_plat=”” [Optional]
+        @options data {String} is_plat: Flag to get webhooks. Possible values – 0 & 1. Example: to get Transactional webhooks, use $is_plat=0, to get Marketing webhooks, use $is_plat=1, & to get all webhooks, use $is_plat="" [Optional]
     */
     public function get_webhooks($data)
     {
@@ -669,7 +678,7 @@ class Mailin
         @param {Array} data contains php array with key value pair.
         @options data {String} url: URL that will be triggered by a webhook [Mandatory]
         @options data {String} description: Webook description [Optional]
-        @options data {Array} events: Set of events. You can use commas to separate multiple events. Possible values for Transcational webhook – request, delivered, hard_bounce, soft_bounce, blocked, spam, invalid_email, deferred, click, & opened and Possible Values for Marketing webhook – spam, opened, click, hard_bounce, unsubscribe, soft_bounce [Mandatory]
+        @options data {Array} events: Set of events. You can use commas to separate multiple events. Possible values for Transcational webhook – request, delivered, hard_bounce, soft_bounce, blocked, spam, invalid_email, deferred, click, & opened and Possible Values for Marketing webhook – spam, opened, click, hard_bounce, unsubscribe, soft_bounce & list_addition ( case sensitive ) [Mandatory]
         @options data {Integer} is_plat: Flag to create webhook type. Possible values – 0 (default) & 1. Example: to create Transactional webhooks, use $is_plat=0, & to create Marketing webhooks, use $is_plat=1 [Optional]
     */
     public function create_webhook($data)
@@ -693,7 +702,7 @@ class Mailin
         @options data {Integer} id: Id of webhook to be modified [Mandatory]
         @options data {String} url: URL that will be triggered by a webhook [Mandatory]
         @options data {String} description: Webook description [Optional]
-        @options data {Array} events: Set of events. You can use commas to separate multiple events. Possible values for Transcational webhook – request, delivered, hard_bounce, soft_bounce, blocked, spam, invalid_email, deferred, click, & opened and Possible Values for Marketing webhook – spam, opened, click, hard_bounce, unsubscribe, soft_bounce [Mandatory]
+        @options data {Array} events: Set of events. You can use commas to separate multiple events. Possible values for Transcational webhook – request, delivered, hard_bounce, soft_bounce, blocked, spam, invalid_email, deferred, click, & opened and Possible Values for Marketing webhook – spam, opened, click, hard_bounce, unsubscribe, soft_bounce & list_addition ( case sensitive ) [Mandatory]
     */
     public function update_webhook($data)
     {
@@ -705,7 +714,7 @@ class Mailin
     /*
         Get Access of created senders information.
         @param {Array} data contains php array with key value pair.
-        @options data {String} option: Options to get senders. Possible options – IP-wise, & Domain-wise ( only for dedicated IP clients ). Example: to get senders with specific IP, use $option=’1.2.3.4′, to get senders with specific domain use, $option=’domain.com’, & to get all senders, use $option=” [Optional]
+        @options data {String} option: Options to get senders. Possible options – IP-wise, & Domain-wise ( only for dedicated IP clients ). Example: to get senders with specific IP, use $option=’1.2.3.4′, to get senders with specific domain use, $option=’domain.com’, & to get all senders, use $option="" [Optional]
     */
     public function get_senders($data)
     {
@@ -717,7 +726,7 @@ class Mailin
         @param {Array} data contains php array with key value pair.
         @options data {String} name: Name of the sender [Mandatory]
         @options data {String} email: Email address of the sender [Mandatory]
-        @options data {Array} ip_domain: Pass pipe ( | ) separated Dedicated IP and its associated Domain. Example: “1.2.3.4|mydomain.com”. You can use commas to separate multiple ip_domain’s [Mandatory: Only for Dedicated IP clients, for Shared IP clients, it should be kept blank]
+        @options data {Array} ip_domain: Pass pipe ( | ) separated Dedicated IP and its associated Domain. Example: "1.2.3.4|mydomain.com". You can use commas to separate multiple ip_domain’s [Mandatory: Only for Dedicated IP clients, for Shared IP clients, it should be kept blank]
     */
     public function create_sender($data)
     {
@@ -729,8 +738,7 @@ class Mailin
         @param {Array} data contains php array with key value pair.
         @options data {Integer} id: Id of sender to be modified [Mandatory]
         @options data {String} name: Name of the sender [Mandatory]
-        @options data {String} email: Email address of the sender [Mandatory]
-        @options data {Array} ip_domain: Pass pipe ( | ) separated Dedicated IP and its associated Domain. Example: “1.2.3.4|mydomain.com”. You can use commas to separate multiple ip_domain’s [Mandatory: Only for Dedicated IP clients, for Shared IP clients, it should be kept blank]
+        @options data {Array} ip_domain: Pass pipe ( | ) separated Dedicated IP and its associated Domain. Example: "1.2.3.4|mydomain.com". You can use commas to separate multiple ip_domain’s [Mandatory: Only for Dedicated IP clients, for Shared IP clients, it should be kept blank]
     */
     public function update_sender($data)
     {
@@ -750,16 +758,16 @@ class Mailin
     /*
         Send Transactional Email.
         @param {Array} data contains php array with key value pair.
-        @options data {Array} to: Email address of the recipient(s). It should be sent as an associative array. Example: array(“to@example.net”=>”to whom”). You can use commas to separate multiple recipients [Mandatory]
+        @options data {Array} to: Email address of the recipient(s). It should be sent as an associative array. Example: array("to@example.net"=>"to whom"). You can use commas to separate multiple recipients [Mandatory]
         @options data {String} subject: Message subject [Mandatory]
-        @options data {Array} from Email address for From header. It should be sent as an array. Example: array(“from@email.com”,”from email”) [Mandatory]
+        @options data {Array} from Email address for From header. It should be sent as an array. Example: array("from@email.com","from email") [Mandatory]
         @options data {String} html: Body of the message. (HTML version) [Mandatory]
         @options data {String} text: Body of the message. (text version) [Optional]
-        @options data {Array} cc: Same as to but for Cc. Example: array(“cc@example.net”,”cc whom”) [Optional]
-        @options data {Array} bcc: Same as to but for Bcc. Example: array(“bcc@example.net”,”bcc whom”) [Optional]
-        @options data {Array} replyto: Same as from but for Reply To. Example: array(“from@email.com”,”from email”) [Optional]
-        @options data {Array} attachment: Provide the absolute url of the attachment/s. Possible extension values = gif, png, bmp, cgm, jpg, jpeg, txt, css, shtml, html, htm, csv, zip, pdf, xml, doc, xls, ppt, tar, and ez. To send attachment/s generated on the fly you have to pass your attachment/s filename & its base64 encoded chunk data as an associative array. Example: array(“YourFileName.Extension”=>”Base64EncodedChunkData”). You can use commas to separate multiple attachments [Optional]
-        @options data {Array} headers: The headers will be sent along with the mail headers in original email. Example: array(“Content-Type”=>”text/html; charset=iso-8859-1″). You can use commas to separate multiple headers [Optional]
+        @options data {Array} cc: Same as to but for Cc. Example: array("cc@example.net","cc whom") [Optional]
+        @options data {Array} bcc: Same as to but for Bcc. Example: array("bcc@example.net","bcc whom") [Optional]
+        @options data {Array} replyto: Same as from but for Reply To. Example: array("from@email.com","from email") [Optional]
+        @options data {Array} attachment: Provide the absolute url of the attachment/s. Possible extension values = gif, png, bmp, cgm, jpg, jpeg, txt, css, shtml, html, htm, csv, zip, pdf, xml, doc, xls, ppt, tar, and ez. To send attachment/s generated on the fly you have to pass your attachment/s filename & its base64 encoded chunk data as an associative array. Example: array("YourFileName.Extension"=>"Base64EncodedChunkData"). You can use commas to separate multiple attachments [Optional]
+        @options data {Array} headers: The headers will be sent along with the mail headers in original email. Example: array("Content-Type"=>"text/html; charset=iso-8859-1"). You can use commas to separate multiple headers [Optional]
     */
     public function send_email($data)
     {
@@ -812,10 +820,10 @@ class Mailin
         Send templates created on SendinBlue, through SendinBlue SMTP (transactional mails).
         @param {Array} data contains php array with key value pair.
         @options data {Integer} id: Id of the template created on SendinBlue account [Mandatory]
-        @options data {String} to: Email address of the recipient(s). You can use pipe ( | ) to separate multiple recipients. Example: “to-example@example.net|to2-example@example.net” [Mandatory]
+        @options data {String} to: Email address of the recipient(s). You can use pipe ( | ) to separate multiple recipients. Example: "to-example@example.net|to2-example@example.net" [Mandatory]
         @options data {String} cc: Same as to but for Cc [Optional]
         @options data {String} bcc: Same as to but for Bcc [Optional]
-        @options data {Array} attrv The name of attribute present in your SendinBlue account. It should be sent as an associative array. Example: array(“NAME”=>”name”). You can use commas to separate multiple attributes [Optional]
+        @options data {Array} attrv The name of attribute present in your SendinBlue account. It should be sent as an associative array. Example: array("NAME"=>"name"). You can use commas to separate multiple attributes [Optional]
         @options data {String} attachment_url: Provide the absolute url of the attachment. Url not allowed from local machine. File must be hosted somewhere [Optional]
         @options data {Array} attachment: To send attachment/s generated on the fly you have to pass your attachment/s filename & its base64 encoded chunk data as an associative array [Optional]
     */
@@ -894,6 +902,7 @@ class Mailin
         @options data {Array} listid: These are the list ids to which the SMS campaign is sent [Mandatory: if scheduled_date is not empty]
         @options data {Array} exclude_list: These are the list ids which will be excluded from the SMS campaign [Optional]
         @options data {String} scheduled_date: The day on which the SMS campaign is supposed to run [Optional]
+        @options data {Integer} send_now: Flag to send campaign now. Possible values = 0 (default) & 1. send_now = 0 means campaign can’t be send now, & send_now = 1 means campaign ready to send now [Optional]
     */
     public function create_sms_campaign($data)
     {
@@ -911,6 +920,7 @@ class Mailin
         @options data {Array} listid: hese are the list ids to which the SMS campaign is sent [Mandatory: if scheduled_date is not empty]
         @options data {Array} exclude_list: These are the list ids which will be excluded from the SMS campaign [Optional]
         @options data {String} scheduled_date: The day on which the SMS campaign is supposed to run [Optional]
+        @options data {Integer} send_now: Flag to send campaign now. Possible values = 0 (default) & 1. send_now = 0 means campaign can’t be send now, & send_now = 1 means campaign ready to send now [Optional]
     */
     public function update_sms_campaign($data)
     {
