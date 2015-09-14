@@ -13,12 +13,11 @@ This version of the bundle requires Symfony 2.x.
 
 Add SendinBlueApiBundle in your `composer.json`:
 
-``` {
+```{
         "require": {
             "sendinblue/sendinblue-api-bundle": "1.0.*"
         }
-    }
-```
+    }```
 
 Now tell composer to download the bundle by running the command:
 
