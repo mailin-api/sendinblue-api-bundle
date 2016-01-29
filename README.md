@@ -1,11 +1,11 @@
-## SendinBlue Symfony2 Bundle
+## SendinBlue Symfony3 Bundle
 
-This is [SendinBlue](https://www.sendinblue.com) provided API V2 Symfony2 Bundle. It implements the various exposed APIs that you can read more about on https://apidocs.sendinblue.com.
+This is [SendinBlue](https://www.sendinblue.com) provided API V2 Symfony3 Bundle. It implements the various exposed APIs that you can read more about on https://apidocs.sendinblue.com.
 
 
 ## Prerequisites
 
-This version of the bundle requires Symfony 2.x.
+This version of the bundle requires Symfony 3.x.
 
 ## Installation
 
@@ -15,7 +15,7 @@ Add SendinBlueApiBundle in your `composer.json`:
 
 ```{
         "require": {
-            "sendinblue/sendinblue-api-bundle": "1.0.*"
+            "sendinblue/sendinblue-api-bundle": "2.0.*"
         }
     }```
 
