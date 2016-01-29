@@ -2,6 +2,7 @@
 
 namespace SendinBlue\SendinBlueApiBundle\Wrapper;
 
+use Symfony\Component\Config\Definition\Exception\Exception;
 /**
 * SendinBlue REST client
 *
