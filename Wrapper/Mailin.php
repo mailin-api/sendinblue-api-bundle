@@ -2,7 +2,6 @@
 
 namespace SendinBlue\SendinBlueApiBundle\Wrapper;
 
-use RuntimeException;
 /**
 * SendinBlue REST client
 *
@@ -22,7 +21,7 @@ class Mailin
     {
         if(!function_exists('curl_init')) 
         {
-            throw new RuntimeException('Mailin requires CURL module');
+            throw new \RuntimeException('Mailin requires cURL module');
         }
         $this->base_url = "https://api.sendinblue.com/v2.0";
         $this->api_key = $api_key;
@@ -51,7 +50,7 @@ class Mailin
         $info = curl_getinfo($ch);
         if(curl_errno($ch))
         {
-            throw new RuntimeException('Curl error: ' . curl_error($ch). '\n');
+            throw new \RuntimeException('Curl error: ' . curl_error($ch));
         }
         curl_close($ch);
         return json_decode($data,true);
