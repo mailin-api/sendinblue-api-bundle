@@ -1,7 +1,7 @@
 {
 	"name": "sendinblue/sendinblue-api-bundle",
 	"type": "symfony-bundle",
-	"description": "Official SendinBlue provided API V2 Symfony3 Bundle",
+	"description": "Official SendinBlue provided API V2 Symfony Bundle",
 	"keywords": ["Sendinblue", "api", "Bundle"],
 	"homepage": "https://github.com/mailin-api/sendinblue-api-bundle",
 	"license": "MIT",
@@ -13,8 +13,8 @@
 		}
 	],
 	"require": {
-		"php": ">=5.5",
-		"symfony/framework-bundle": "3.*"
+		"php": ">=5.3",
+		"symfony/framework-bundle": "2.*|3.*"
 	},
 	"autoload": {
 		"psr-4": { "SendinBlue\\SendinBlueApiBundle\\": "" }
