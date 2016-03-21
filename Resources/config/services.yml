@@ -4,4 +4,4 @@ parameters:
 services:
    sendinblue_api:
        class: %sendinblue_api.class%
-       arguments: [%sendinblue_api_key%]
+       arguments: [%sendinblueapi.config%]

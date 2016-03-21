@@ -55,10 +55,12 @@ public function registerBundles()
 
 ### Add SendinBlue Api key
 
-In your `app/config/parameters.yml`:
+In your `app/config/config.yml`:
 
 ```yaml
-sendinblue_api_key: <Your access key>
+sendinblueapi:
+    api_key: <Your access key>
+    ssl: true #optional configuring curl connection
 ```
 
 
