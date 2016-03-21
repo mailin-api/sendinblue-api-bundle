@@ -23,8 +23,9 @@ class Mailin
         {
             throw new \RuntimeException('Mailin requires cURL module');
         }
+        $this->config = $api_key;
         $this->base_url = "https://api.sendinblue.com/v2.0";
-        $this->api_key = $api_key;
+        $this->api_key = $this->config['api_key'];
     }
     /**
      * Do CURL request with authorization
