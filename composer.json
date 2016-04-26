@@ -1,7 +1,7 @@
 {
 	"name": "sendinblue/sendinblue-api-bundle",
 	"type": "symfony-bundle",
-	"description": "Official SendinBlue provided API V2 Symfony Bundle",
+	"description": "Official SendinBlue provided API V2 Symfony 2.x & 3.x Bundle",
 	"keywords": ["Sendinblue", "api", "Bundle"],
 	"homepage": "https://github.com/mailin-api/sendinblue-api-bundle",
 	"license": "MIT",
