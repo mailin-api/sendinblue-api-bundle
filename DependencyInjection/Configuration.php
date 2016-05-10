@@ -25,6 +25,7 @@ class Configuration implements ConfigurationInterface
         // more information on that topic.
         $rootNode->children()
                     ->scalarNode('api_key')->isRequired()->cannotBeEmpty()->end()
+                    ->scalarNode('timeout')->defaultValue(30000)->end() //default timeout: 30 secs
                   ->end();
 
         return $treeBuilder;

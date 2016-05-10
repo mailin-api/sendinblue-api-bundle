@@ -60,6 +60,8 @@ In your `app/config/config.yml`:
 ```yaml
 sendin_blue_api:
     api_key: <Your access key>
+    # Our library supports a timeout value, which is an optional parameter, default is 30,000 MS ( 30 secs )
+    timeout: 5000
 ```
 
 

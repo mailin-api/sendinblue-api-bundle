@@ -13,19 +13,20 @@ namespace SendinBlue\SendinBlueApiBundle\Wrapper;
 
 class Mailin
 {
-    public $api_key;
+    public $parameters;
     public $base_url;
     public $curl_opts = array();
 
-    public function __construct($api_key)
+    public function __construct($parameters)
     {
         if(!function_exists('curl_init')) 
         {
             throw new \RuntimeException('Mailin requires cURL module');
         }
-        $this->config = $api_key;
+        $this->config = $parameters;
         $this->base_url = "https://api.sendinblue.com/v2.0";
         $this->api_key = $this->config['api_key'];
+        $this->timeout = $this->config['timeout'];
     }
     /**
      * Do CURL request with authorization
@@ -36,6 +37,9 @@ class Mailin
         $ch = curl_init($called_url);
         $auth_header = 'api-key:'.$this->api_key;
         $content_header = "Content-Type:application/json";
+        if (isset($this->timeout) && ($this->timeout <= 0 || $this->timeout > 60000)) {
+            throw new \Exception('value not allowed for timeout');
+        }
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             // Windows only over-ride
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -44,6 +48,7 @@ class Mailin
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+         curl_setopt($ch, CURLOPT_TIMEOUT_MS, $this->timeout);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $input);
 
@@ -51,7 +56,7 @@ class Mailin
         $info = curl_getinfo($ch);
         if(curl_errno($ch))
         {
-            throw new \RuntimeException('Curl error: ' . curl_error($ch));
+            throw new \RuntimeException('cURL error: ' . curl_error($ch));
         }
         curl_close($ch);
         return json_decode($data,true);
