@@ -1,11 +1,11 @@
-## SendinBlue Symfony2 Bundle
+## SendinBlue Symfony Bundle
 
-This is [SendinBlue](https://www.sendinblue.com) provided API V2 Symfony2 Bundle. It implements the various exposed APIs that you can read more about on https://apidocs.sendinblue.com.
+This is [SendinBlue](https://www.sendinblue.com) provided API V2 Symfony Bundle. It implements the various exposed APIs that you can read more about on https://apidocs.sendinblue.com.
 
 
 ## Prerequisites
 
-This version of the bundle requires Symfony 2.x.
+This version of the bundle requires Symfony 2.x OR 3.x.
 
 ## Installation
 
@@ -15,7 +15,7 @@ Add SendinBlueApiBundle in your `composer.json`:
 
 ```{
         "require": {
-            "sendinblue/sendinblue-api-bundle": "1.0.*"
+            "sendinblue/sendinblue-api-bundle": "2.0.*"
         }
     }```
 
@@ -55,10 +55,13 @@ public function registerBundles()
 
 ### Add SendinBlue Api key
 
-In your `app/config/parameters.yml`:
+In your `app/config/config.yml`:
 
 ```yaml
-sendinblue_api_key: <Your access key>
+sendin_blue_api:
+    api_key: <Your access key>
+    # Our library supports a timeout value, which is an optional parameter, default is 30,000 MS ( 30 secs )
+    timeout: 5000
 ```
 
 
