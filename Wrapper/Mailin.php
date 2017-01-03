@@ -35,9 +35,6 @@ class Mailin
         $ch = curl_init($called_url);
         $auth_header = 'api-key:'.$this->api_key;
         $content_header = 'Content-Type:application/json';
-        if (isset($this->timeout) && ($this->timeout <= 0 || $this->timeout > 60000)) {
-            throw new \Exception('value not allowed for timeout');
-        }
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             // Windows only over-ride
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
