@@ -11,19 +11,22 @@ namespace SendinBlue\SendinBlueApiBundle\Wrapper;
  */
 class Mailin
 {
-    public $parameters;
-    public $base_url;
-    public $curl_opts = array();
+    const ENDPOINT = 'https://api.sendinblue.com/v2.0/';
+
+    /** @var string */
+    private $api_key;
+
+    /** @var int */
+    private $timeout;
 
     public function __construct($parameters)
     {
         if (!function_exists('curl_init')) {
             throw new \RuntimeException('Mailin requires cURL module');
         }
-        $this->config = $parameters;
-        $this->base_url = 'https://api.sendinblue.com/v2.0';
-        $this->api_key = $this->config['api_key'];
-        $this->timeout = $this->config['timeout'];
+
+        $this->api_key = $parameters['api_key'];
+        $this->timeout = $parameters['timeout'];
     }
 
     /**
@@ -31,7 +34,7 @@ class Mailin
      */
     private function do_request($resource, $method, $input)
     {
-        $called_url = $this->base_url.'/'.$resource;
+        $called_url = self::ENDPOINT.$resource;
         $ch = curl_init($called_url);
         $auth_header = 'api-key:'.$this->api_key;
         $content_header = 'Content-Type:application/json';
@@ -48,7 +51,6 @@ class Mailin
         curl_setopt($ch, CURLOPT_POSTFIELDS, $input);
 
         $data = curl_exec($ch);
-        $info = curl_getinfo($ch);
         if (curl_errno($ch)) {
             throw new \RuntimeException('cURL error: '.curl_error($ch));
         }
