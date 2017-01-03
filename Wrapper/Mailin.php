@@ -3,14 +3,12 @@
 namespace SendinBlue\SendinBlueApiBundle\Wrapper;
 
 /**
-* SendinBlue REST client
-*
-* @package API V2.0
-* @author SendinBlue
-* @link https://apidocs.sendinblue.com/
-*
-*/
-
+ * SendinBlue REST client.
+ *
+ * @author SendinBlue
+ *
+ * @see https://apidocs.sendinblue.com/
+ */
 class Mailin
 {
     public $parameters;
@@ -19,24 +17,24 @@ class Mailin
 
     public function __construct($parameters)
     {
-        if(!function_exists('curl_init')) 
-        {
+        if (!function_exists('curl_init')) {
             throw new \RuntimeException('Mailin requires cURL module');
         }
         $this->config = $parameters;
-        $this->base_url = "https://api.sendinblue.com/v2.0";
+        $this->base_url = 'https://api.sendinblue.com/v2.0';
         $this->api_key = $this->config['api_key'];
         $this->timeout = $this->config['timeout'];
     }
+
     /**
-     * Do CURL request with authorization
+     * Do CURL request with authorization.
      */
-    private function do_request($resource,$method,$input)
+    private function do_request($resource, $method, $input)
     {
-        $called_url = $this->base_url."/".$resource;
+        $called_url = $this->base_url.'/'.$resource;
         $ch = curl_init($called_url);
         $auth_header = 'api-key:'.$this->api_key;
-        $content_header = "Content-Type:application/json";
+        $content_header = 'Content-Type:application/json';
         if (isset($this->timeout) && ($this->timeout <= 0 || $this->timeout > 60000)) {
             throw new \Exception('value not allowed for timeout');
         }
@@ -44,38 +42,42 @@ class Mailin
             // Windows only over-ride
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         }
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array($auth_header,$content_header));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array($auth_header, $content_header));
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-         curl_setopt($ch, CURLOPT_TIMEOUT_MS, $this->timeout);
+        curl_setopt($ch, CURLOPT_TIMEOUT_MS, $this->timeout);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $input);
 
         $data = curl_exec($ch);
         $info = curl_getinfo($ch);
-        if(curl_errno($ch))
-        {
-            throw new \RuntimeException('cURL error: ' . curl_error($ch));
+        if (curl_errno($ch)) {
+            throw new \RuntimeException('cURL error: '.curl_error($ch));
         }
         curl_close($ch);
-        return json_decode($data,true);
+
+        return json_decode($data, true);
     }
-    public function get($resource,$input)
+
+    public function get($resource, $input)
     {
-        return $this->do_request($resource,"GET",$input);
-    }   
-    public function put($resource,$input)
-    {
-        return $this->do_request($resource,"PUT",$input);
+        return $this->do_request($resource, 'GET', $input);
     }
-    public function post($resource,$input)
+
+    public function put($resource, $input)
     {
-        return $this->do_request($resource,"POST",$input);
+        return $this->do_request($resource, 'PUT', $input);
     }
-    public function delete($resource,$input)
+
+    public function post($resource, $input)
     {
-        return $this->do_request($resource,"DELETE",$input);
+        return $this->do_request($resource, 'POST', $input);
+    }
+
+    public function delete($resource, $input)
+    {
+        return $this->do_request($resource, 'DELETE', $input);
     }
 
     /*
@@ -84,7 +86,7 @@ class Mailin
     */
     public function get_account()
     {
-        return $this->get("account","");
+        return $this->get('account', '');
     }
 
     /*
@@ -93,7 +95,7 @@ class Mailin
     */
     public function get_smtp_details()
     {
-        return $this->get("account/smtpdetail","");
+        return $this->get('account/smtpdetail', '');
     }
 
     /*
@@ -111,7 +113,7 @@ class Mailin
     */
     public function create_child_account($data)
     {
-        return $this->post("account",json_encode($data));
+        return $this->post('account', json_encode($data));
     }
 
     /*
@@ -127,17 +129,17 @@ class Mailin
     */
     public function update_child_account($data)
     {
-        return $this->put("account",json_encode($data));
+        return $this->put('account', json_encode($data));
     }
 
     /*
         Delete Child Account.
         @param {Array} data contains php array with key value pair.
         @options data {String} auth_key: 16 character authorization key of Reseller child to be deleted [Mandatory]
-    */   
+    */
     public function delete_child_account($data)
-    {   
-        return $this->delete("account/".$data['auth_key'],"");
+    {
+        return $this->delete('account/'.$data['auth_key'], '');
     }
 
     /*
@@ -147,7 +149,7 @@ class Mailin
     */
     public function get_reseller_child($data)
     {
-        return $this->post("account/getchildv2",json_encode($data));
+        return $this->post('account/getchildv2', json_encode($data));
     }
 
     /*
@@ -163,17 +165,17 @@ class Mailin
     */
     public function add_remove_child_credits($data)
     {
-        return $this->post("account/addrmvcredit",json_encode($data));
+        return $this->post('account/addrmvcredit', json_encode($data));
     }
 
-    /*  
+    /*
         Get a particular campaign detail.
         @param {Array} data contains php array with key value pair.
         @options data {Integer} id: Unique Id of the campaign [Mandatory]
     */
     public function get_campaign_v2($data)
     {
-        return $this->get("campaign/".$data['id']."/detailsv2","");
+        return $this->get('campaign/'.$data['id'].'/detailsv2', '');
     }
 
     /*
@@ -186,7 +188,7 @@ class Mailin
     */
     public function get_campaigns_v2($data)
     {
-        return $this->get("campaign/detailsv2",json_encode($data));
+        return $this->get('campaign/detailsv2', json_encode($data));
     }
 
     /*
@@ -213,7 +215,7 @@ class Mailin
     */
     public function create_campaign($data)
     {
-        return $this->post("campaign",json_encode($data));
+        return $this->post('campaign', json_encode($data));
     }
 
     /*
@@ -239,10 +241,11 @@ class Mailin
         @options data {Integer} send_now: Flag to send campaign now. Possible values = 0 (default) & 1. send_now = 0 means campaign can’t be send now, & send_now = 1 means campaign ready to send now [Optional]
     */
     public function update_campaign($data)
-    {   
+    {
         $id = $data['id'];
         unset($data['id']);
-        return $this->put("campaign/".$id,json_encode($data));
+
+        return $this->put('campaign/'.$id, json_encode($data));
     }
 
     /*
@@ -252,7 +255,7 @@ class Mailin
     */
     public function delete_campaign($data)
     {
-        return $this->delete("campaign/".$data['id'],"");
+        return $this->delete('campaign/'.$data['id'], '');
     }
 
     /*
@@ -271,7 +274,8 @@ class Mailin
     {
         $id = $data['id'];
         unset($data['id']);
-        return $this->post("campaign/".$id."/report",json_encode($data));
+
+        return $this->post('campaign/'.$id.'/report', json_encode($data));
     }
 
     /*
@@ -285,7 +289,8 @@ class Mailin
     {
         $id = $data['id'];
         unset($data['id']);
-        return $this->post("campaign/".$id."/recipients",json_encode($data));
+
+        return $this->post('campaign/'.$id.'/recipients', json_encode($data));
     }
 
     /*
@@ -296,7 +301,7 @@ class Mailin
 
     public function share_campaign($data)
     {
-        return $this->post("campaign/sharelinkv2",json_encode($data));
+        return $this->post('campaign/sharelinkv2', json_encode($data));
     }
 
     /*
@@ -309,7 +314,8 @@ class Mailin
     {
         $id = $data['id'];
         unset($data['id']);
-        return $this->post("campaign/".$id."/test",json_encode($data));
+
+        return $this->post('campaign/'.$id.'/test', json_encode($data));
     }
 
     /*
@@ -322,7 +328,8 @@ class Mailin
     {
         $id = $data['id'];
         unset($data['id']);
-        return $this->put("campaign/".$id."/updatecampstatus",json_encode($data));
+
+        return $this->put('campaign/'.$id.'/updatecampstatus', json_encode($data));
     }
 
     /*
@@ -349,7 +356,7 @@ class Mailin
     */
     public function create_trigger_campaign($data)
     {
-        return $this->post("campaign",json_encode($data));
+        return $this->post('campaign', json_encode($data));
     }
 
     /*
@@ -379,7 +386,8 @@ class Mailin
     {
         $id = $data['id'];
         unset($data['id']);
-        return $this->put("campaign/".$id,json_encode($data));
+
+        return $this->put('campaign/'.$id, json_encode($data));
     }
 
     /*
@@ -390,7 +398,7 @@ class Mailin
     */
     public function get_folders($data)
     {
-        return $this->get("folder",json_encode($data));
+        return $this->get('folder', json_encode($data));
     }
 
     /*
@@ -400,7 +408,7 @@ class Mailin
     */
     public function get_folder($data)
     {
-        return $this->get("folder/".$data['id'],"");
+        return $this->get('folder/'.$data['id'], '');
     }
 
     /*
@@ -410,7 +418,7 @@ class Mailin
     */
     public function create_folder($data)
     {
-        return $this->post("folder",json_encode($data));
+        return $this->post('folder', json_encode($data));
     }
 
     /*
@@ -420,7 +428,7 @@ class Mailin
     */
     public function delete_folder($data)
     {
-        return $this->delete("folder/".$data['id'],"");
+        return $this->delete('folder/'.$data['id'], '');
     }
 
     /*
@@ -433,7 +441,8 @@ class Mailin
     {
         $id = $data['id'];
         unset($data['id']);
-        return $this->put("folder/".$id,json_encode($data));
+
+        return $this->put('folder/'.$id, json_encode($data));
     }
 
     /*
@@ -445,7 +454,7 @@ class Mailin
     */
     public function get_lists($data)
     {
-        return $this->get("list",json_encode($data));
+        return $this->get('list', json_encode($data));
     }
 
     /*
@@ -455,7 +464,7 @@ class Mailin
     */
     public function get_list($data)
     {
-        return $this->get("list/".$data['id'],"");
+        return $this->get('list/'.$data['id'], '');
     }
 
     /*
@@ -466,7 +475,7 @@ class Mailin
     */
     public function create_list($data)
     {
-        return $this->post("list",json_encode($data));
+        return $this->post('list', json_encode($data));
     }
 
     /*
@@ -480,7 +489,8 @@ class Mailin
     {
         $id = $data['id'];
         unset($data['id']);
-        return $this->put("list/".$id,json_encode($data));
+
+        return $this->put('list/'.$id, json_encode($data));
     }
 
     /*
@@ -490,9 +500,9 @@ class Mailin
     */
     public function delete_list($data)
     {
-        return $this->delete("list/".$data['id'],"");
+        return $this->delete('list/'.$data['id'], '');
     }
-    
+
     /*
         Display details of all users for the given lists.
         @param {Array} data contains php array with key value pair.
@@ -503,7 +513,7 @@ class Mailin
     */
     public function display_list_users($data)
     {
-        return $this->post("list/display",json_encode($data));
+        return $this->post('list/display', json_encode($data));
     }
 
     /*
@@ -517,7 +527,8 @@ class Mailin
     {
         $id = $data['id'];
         unset($data['id']);
-        return $this->post("list/".$id."/users",json_encode($data));
+
+        return $this->post('list/'.$id.'/users', json_encode($data));
     }
 
     /*
@@ -530,7 +541,8 @@ class Mailin
     {
         $id = $data['id'];
         unset($data['id']);
-        return $this->delete("list/".$id."/delusers",json_encode($data));
+
+        return $this->delete('list/'.$id.'/delusers', json_encode($data));
     }
 
     /*
@@ -539,7 +551,7 @@ class Mailin
     */
     public function get_attributes()
     {
-        return $this->get("attribute","");
+        return $this->get('attribute', '');
     }
 
     /*
@@ -549,7 +561,7 @@ class Mailin
     */
     public function get_attribute($data)
     {
-        return $this->get("attribute/".$data['type'],"");
+        return $this->get('attribute/'.$data['type'], '');
     }
 
     /*
@@ -561,7 +573,7 @@ class Mailin
     */
     public function create_attribute($data)
     {
-        return $this->post("attribute/",json_encode($data));
+        return $this->post('attribute/', json_encode($data));
     }
 
     /*
@@ -573,7 +585,8 @@ class Mailin
     {
         $type = $data['type'];
         unset($data['type']);
-        return $this->post("attribute/".$type,json_encode($data));
+
+        return $this->post('attribute/'.$type, json_encode($data));
     }
 
     /*
@@ -588,7 +601,7 @@ class Mailin
     */
     public function create_update_user($data)
     {
-        return $this->post("user/createdituser",json_encode($data));
+        return $this->post('user/createdituser', json_encode($data));
     }
 
     /*
@@ -598,7 +611,7 @@ class Mailin
     */
     public function get_user($data)
     {
-        return $this->get("user/".$data['email'],"");
+        return $this->get('user/'.$data['email'], '');
     }
 
     /*
@@ -608,7 +621,7 @@ class Mailin
     */
     public function delete_user($data)
     {
-        return $this->delete("user/".$data['email'],"");
+        return $this->delete('user/'.$data['email'], '');
     }
 
     /*
@@ -623,7 +636,7 @@ class Mailin
     */
     public function import_users($data)
     {
-        return $this->post("user/import",json_encode($data));
+        return $this->post('user/import', json_encode($data));
     }
 
     /*
@@ -635,8 +648,8 @@ class Mailin
     */
     public function export_users($data)
     {
-        return $this->post("user/export",json_encode($data));
-    } 
+        return $this->post('user/export', json_encode($data));
+    }
 
     /*
         Get all the processes information under the account.
@@ -646,7 +659,7 @@ class Mailin
     */
     public function get_processes($data)
     {
-        return $this->get("process",json_encode($data));
+        return $this->get('process', json_encode($data));
     }
 
     /*
@@ -656,7 +669,7 @@ class Mailin
     */
     public function get_process($data)
     {
-        return $this->get("process/".$data['id'],"");
+        return $this->get('process/'.$data['id'], '');
     }
 
     /*
@@ -666,7 +679,7 @@ class Mailin
     */
     public function get_webhooks($data)
     {
-            return $this->get("webhook",json_encode($data));
+        return $this->get('webhook', json_encode($data));
     }
 
     /*
@@ -676,7 +689,7 @@ class Mailin
     */
     public function get_webhook($data)
     {
-        return $this->get("webhook/".$data['id'],"");
+        return $this->get('webhook/'.$data['id'], '');
     }
 
     /*
@@ -689,7 +702,7 @@ class Mailin
     */
     public function create_webhook($data)
     {
-        return $this->post("webhook",json_encode($data));
+        return $this->post('webhook', json_encode($data));
     }
 
     /*
@@ -699,7 +712,7 @@ class Mailin
     */
     public function delete_webhook($data)
     {
-        return $this->delete("webhook/".$data['id'],"");
+        return $this->delete('webhook/'.$data['id'], '');
     }
 
     /*
@@ -714,7 +727,8 @@ class Mailin
     {
         $id = $data['id'];
         unset($data['id']);
-        return $this->put("webhook/".$id,json_encode($data));
+
+        return $this->put('webhook/'.$id, json_encode($data));
     }
 
     /*
@@ -724,7 +738,7 @@ class Mailin
     */
     public function get_senders($data)
     {
-        return $this->get("advanced",json_encode($data));
+        return $this->get('advanced', json_encode($data));
     }
 
     /*
@@ -736,7 +750,7 @@ class Mailin
     */
     public function create_sender($data)
     {
-        return $this->post("advanced",json_encode($data));
+        return $this->post('advanced', json_encode($data));
     }
 
     /*
@@ -750,7 +764,8 @@ class Mailin
     {
         $id = $data['id'];
         unset($data['id']);
-        return $this->put("advanced/".$id,json_encode($data));
+
+        return $this->put('advanced/'.$id, json_encode($data));
     }
 
     /*
@@ -760,7 +775,7 @@ class Mailin
     */
     public function delete_sender($data)
     {
-        return $this->delete("advanced/".$data['id'],"");
+        return $this->delete('advanced/'.$data['id'], '');
     }
 
     /*
@@ -779,9 +794,9 @@ class Mailin
     */
     public function send_email($data)
     {
-        return $this->post("email",json_encode($data));
+        return $this->post('email', json_encode($data));
     }
-    
+
     /*
         Aggregate / date-wise report of the SendinBlue SMTP account.
         @param {Array} data contains php array with key value pair.
@@ -793,9 +808,9 @@ class Mailin
     */
     public function get_statistics($data)
     {
-        return $this->post("statistics",json_encode($data));
+        return $this->post('statistics', json_encode($data));
     }
-   
+
     /*
         Get Email Event report.
         @param {Array} data contains php array with key value pair.
@@ -809,7 +824,7 @@ class Mailin
     */
     public function get_report($data)
     {
-        return $this->post("report",json_encode($data));
+        return $this->post('report', json_encode($data));
     }
 
    /*
@@ -821,7 +836,7 @@ class Mailin
     */
     public function delete_bounces($data)
     {
-        return $this->post("bounces",json_encode($data));
+        return $this->post('bounces', json_encode($data));
     }
 
     /*
@@ -839,7 +854,8 @@ class Mailin
     {
         $id = $data['id'];
         unset($data['id']);
-        return $this->put("template/".$id,json_encode($data));
+
+        return $this->put('template/'.$id, json_encode($data));
     }
 
     /*
@@ -859,7 +875,7 @@ class Mailin
     */
     public function create_template($data)
     {
-        return $this->post("template",json_encode($data));
+        return $this->post('template', json_encode($data));
     }
 
     /*
@@ -882,9 +898,10 @@ class Mailin
     {
         $id = $data['id'];
         unset($data['id']);
-        return $this->put("template/".$id,json_encode($data));
+
+        return $this->put('template/'.$id, json_encode($data));
     }
-   
+
     /*
         Send a transactional SMS.
         @param {Array} data contains php array with key value pair.
@@ -897,7 +914,7 @@ class Mailin
     */
     public function send_sms($data)
     {
-        return $this->post("sms",json_encode($data));
+        return $this->post('sms', json_encode($data));
     }
 
     /*
@@ -914,7 +931,7 @@ class Mailin
     */
     public function create_sms_campaign($data)
     {
-        return $this->post("sms",json_encode($data));
+        return $this->post('sms', json_encode($data));
     }
 
     /*
@@ -934,7 +951,8 @@ class Mailin
     {
         $id = $data['id'];
         unset($data['id']);
-        return $this->put("sms/".$id,json_encode($data));
+
+        return $this->put('sms/'.$id, json_encode($data));
     }
 
     /*
@@ -947,8 +965,7 @@ class Mailin
     {
         $id = $data['id'];
         unset($data['id']);
-        return $this->get("sms/".$id,json_encode($data));
-    }
 
+        return $this->get('sms/'.$id, json_encode($data));
+    }
 }
-?>
