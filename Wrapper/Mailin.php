@@ -34,21 +34,18 @@ class Mailin
      */
     private function do_request($resource, $method, $input)
     {
-        $called_url = self::ENDPOINT.$resource;
-        $ch = curl_init($called_url);
-        $auth_header = 'api-key:'.$this->api_key;
-        $content_header = 'Content-Type:application/json';
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            // Windows only over-ride
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        }
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array($auth_header, $content_header));
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT_MS, $this->timeout);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $input);
+        $ch = curl_init(self::ENDPOINT.$resource);
+        curl_setopt_array($ch, array(
+            CURLOPT_CUSTOMREQUEST => $method,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTPHEADER => array(
+                'api-key' => $this->api_key,
+                'Content-Type' => 'application/json',
+            ),
+            CURLOPT_POSTFIELDS => $input,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT_MS => $this->timeout,
+        ));
 
         $data = curl_exec($ch);
         if (curl_errno($ch)) {
