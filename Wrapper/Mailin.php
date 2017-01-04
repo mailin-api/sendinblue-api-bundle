@@ -39,8 +39,8 @@ class Mailin
             CURLOPT_CUSTOMREQUEST => $method,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTPHEADER => array(
-                'api-key' => $this->api_key,
-                'Content-Type' => 'application/json',
+                'api-key: '. $this->api_key,
+                'Content-Type: application/json',
             ),
             CURLOPT_POSTFIELDS => $input,
             CURLOPT_RETURNTRANSFER => true,
