@@ -2,6 +2,10 @@
 
 namespace SendinBlue\SendinBlueApiBundle\Wrapper;
 
+use SendinBlue\SendinBlueApiBundle\Exception\MailDataModelNotValidException;
+use SendinBlue\SendinBlueApiBundle\Exception\MailNotSentException;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 /**
  * SendinBlue REST client.
  *
@@ -19,7 +23,10 @@ class Mailin
     /** @var int */
     private $timeout;
 
-    public function __construct($parameters)
+    /** @var ValidatorInterface */
+    private $validator;
+
+    public function __construct($parameters, $validator)
     {
         if (!function_exists('curl_init')) {
             throw new \RuntimeException('Mailin requires cURL module');
@@ -27,6 +34,8 @@ class Mailin
 
         $this->api_key = $parameters['api_key'];
         $this->timeout = $parameters['timeout'];
+
+        $this->validator = $validator;
     }
 
     /**
@@ -776,21 +785,12 @@ class Mailin
 
     /*
         Send Transactional Email.
-        @param {Array} data contains php array with key value pair.
-        @options data {Array} to: Email address of the recipient(s). It should be sent as an associative array. Example: array("to@example.net"=>"to whom"). You can use commas to separate multiple recipients [Mandatory]
-        @options data {String} subject: Message subject [Mandatory]
-        @options data {Array} from Email address for From header. It should be sent as an array. Example: array("from@email.com","from email") [Mandatory]
-        @options data {String} html: Body of the message. (HTML version) [Mandatory]
-        @options data {String} text: Body of the message. (text version) [Optional]
-        @options data {Array} cc: Same as to but for Cc. Example: array("cc@example.net","cc whom") [Optional]
-        @options data {Array} bcc: Same as to but for Bcc. Example: array("bcc@example.net","bcc whom") [Optional]
-        @options data {Array} replyto: Same as from but for Reply To. Example: array("from@email.com","from email") [Optional]
-        @options data {Array} attachment: Provide the absolute url of the attachment/s. Possible extension values = gif, png, bmp, cgm, jpg, jpeg, txt, css, shtml, html, htm, csv, zip, pdf, xml, doc, xls, ppt, tar, and ez. To send attachment/s generated on the fly you have to pass your attachment/s filename & its base64 encoded chunk data as an associative array. Example: array("YourFileName.Extension"=>"Base64EncodedChunkData"). You can use commas to separate multiple attachments [Optional]
-        @options data {Array} headers: The headers will be sent along with the mail headers in original email. Example: array("Content-Type"=>"text/html; charset=iso-8859-1"). You can use commas to separate multiple headers [Optional]
+        @param {TransactionMailDataModel} data in model
     */
-    public function send_email($data)
+    public function send_email($model)
     {
-        return $this->post('email', json_encode($data));
+        $this->validateMailDataModel($model);
+        return $this->post('email', json_encode($model->toArray()));
     }
 
     /*
@@ -963,5 +963,33 @@ class Mailin
         unset($data['id']);
 
         return $this->get('sms/'.$id, json_encode($data));
+    }
+
+    /*
+     * Validate mail data model.
+     *
+     * @param $model
+     * @throws MailDataModelNotValidException
+     */
+    public function validateMailDataModel($model)
+    {
+        $errors = $this->validator->validate($model);
+
+        if ($errors->count()) {
+            throw new MailDataModelNotValidException($errors);
+        }
+    }
+
+    /*
+     * Check response for failure.
+     *
+     * @param $response
+     * @throws MailNotSentException
+     */
+    public function validateResponse($response)
+    {
+        if ($response['code'] == 'failure') {
+            throw new MailNotSentException($response['message']);
+        }
     }
 }

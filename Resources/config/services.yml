@@ -4,4 +4,4 @@ parameters:
 services:
    sendinblue_api:
        class: "%sendinblue_api.class%"
-       arguments: ["%sendin_blue_api.config%"]
+       arguments: ["%sendin_blue_api.config%", '@validator']
