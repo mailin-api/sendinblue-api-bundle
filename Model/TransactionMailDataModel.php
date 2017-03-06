@@ -354,7 +354,7 @@ class TransactionMailDataModel
           'text' => $this->getText(),
           'cc' => $this->getCc(),
           'bcc' => $this->getBcc(),
-          'replyto' => $this->getReplyTo(),
+          'replyto' => [$this->getReplyToEmail(), $this->getReplyToName()],
           'attachment' => $this->getAttachment(),
           'headers' => $this->getHeaders(),
           'inline_image' => $this->getInlineImage()
