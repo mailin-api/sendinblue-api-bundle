@@ -118,8 +118,13 @@ $data->setTo(array("to@example.net"=>"to whom!"))
     ->setHeaders(array("Content-Type"=> "text/html; charset=iso-8859-1","X-param1"=> "value1", "X-param2"=> "value2","X-Mailin-custom"=>"my custom value", "X-Mailin-IP"=> "102.102.1.2", "X-Mailin-Tag" => "My tag"))
     ->setInlineImage(array("myinlineimage1.png" => "your_png_files_base64_encoded_chunk_data","myinlineimage2.jpg" => "your_jpg_files_base64_encoded_chunk_data"));
 
+// This will validate data model and throw an exception when it is not valid
+$response = $sendinblue->send_email($data);
 
-$sendinblue->validateResponse($sendinblue->send_email($data));
+// validateResponse() will check the response and throw an exception when it is failure
+$sendinblue->validateResponse($response);
+
+// Shorter way how to write it: $sendinblue->validateResponse($sendinblue->send_email($data));
 ```
 
 ## Support and Feedback
