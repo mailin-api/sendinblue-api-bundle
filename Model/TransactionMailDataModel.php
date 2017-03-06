@@ -68,10 +68,16 @@ class TransactionMailDataModel
     private $bcc;
 
     /**
-     * @var array
-     * @Assert\Type(type="array", message="Reply to must be in an array ('email' => 'name').")
+     * @var string
+     * @Assert\Type(type="string", message="Reply to email must be a string.")
      */
-    private $replyTo;
+    private $replyToEmail;
+
+    /**
+     * @var string
+     * @Assert\Type(type="string", message="Reply to name must be a string.")
+     */
+    private $replyToName;
 
     /**
      * @var array
@@ -244,20 +250,39 @@ class TransactionMailDataModel
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getReplyTo()
+    public function getReplyToEmail()
     {
-        return $this->replyTo;
+        return $this->replyToEmail;
     }
 
     /**
-     * @param array $replyTo
+     * @param string $replyToEmail
      * @return $this
      */
-    public function setReplyTo($replyTo)
+    public function setReplyToEmail($replyToEmail)
     {
-        $this->replyTo = $replyTo;
+        $this->replyToEmail = $replyToEmail;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReplyToName()
+    {
+        return $this->replyToName;
+    }
+
+    /**
+     * @param string $replyToName
+     * @return $this
+     */
+    public function setReplyToName($replyToName)
+    {
+        $this->replyToName = $replyToName;
 
         return $this;
     }
