@@ -121,7 +121,7 @@ $data->setTo(array("to@example.net"=>"to whom!"))
 // This will validate data model and throw an exception when it is not valid
 $response = $sendinblue->send_email($data);
 
-// validateResponse() will check the response and throw an exception when it is failure
+// validateResponse() will check the response and throw an exception when it fails
 $sendinblue->validateResponse($response);
 
 // Shorter way how to write it: $sendinblue->validateResponse($sendinblue->send_email($data));
