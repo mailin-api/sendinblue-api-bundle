@@ -124,7 +124,8 @@ $response = $sendinblue->send_email($data);
 // validateResponse() will check the response and throw an exception when it fails
 $sendinblue->validateResponse($response);
 
-// Shorter way how to write it: $sendinblue->validateResponse($sendinblue->send_email($data));
+// Shorter way how to write it
+// $sendinblue->validateResponse($sendinblue->send_email($data));
 ```
 
 ## Support and Feedback
