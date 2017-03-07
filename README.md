@@ -87,7 +87,7 @@ $result = $sendinblue->get_account();
 // var_dump($result);
 ```
 
-#### To send email
+#### To send transactional email
 ```php
 <?php
 
@@ -126,6 +126,30 @@ $sendinblue->validateResponse($response);
 
 // Shorter way how to write it
 // $sendinblue->validateResponse($sendinblue->send_email($data));
+```
+
+#### To send transactional email template
+```php
+<?php
+
+use SendinBlue\SendinBlueApiBundle\Model\TransactionalTemplateMailDataModel;
+
+$sendinblue = $this->get('sendinblue_api');
+
+$data = new TransactionalTemplateMailDataModel();
+
+$data->setId(2)
+	->addTo('to-example@example.net')
+	->addTo('to2-example@example.net')
+	->setCc('cc-example@example.net')
+	->setBcc('bcc-example@example.net')
+	->setReplyTo('replyto-example@example.net')
+	->setAttr(array("EXPEDITEUR"=>"His name","SUBJECT"=>"This is my subject"))
+	->setAttachmentUrl('')
+	->setAttachment(array("myfilename.pdf" => "your_pdf_files_base64_encoded_chunk_data"))
+	->setHeaders(array("Content-Type"=> "text/html;charset=iso-8859-1", "X-param1"=> "value1", "X-param2"=> "value2", "X-Mailin-custom"=>"my custom value","X-Mailin-tag"=>"my tag value"));
+
+$sendinblue->validateResponse($sendinblue->send_transactional_template($data));
 ```
 
 ## Support and Feedback

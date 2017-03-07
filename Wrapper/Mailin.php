@@ -846,12 +846,13 @@ class Mailin
         @options data {String} attachment_url: Provide the absolute url of the attachment. Url not allowed from local machine. File must be hosted somewhere [Optional]
         @options data {Array} attachment: To send attachment/s generated on the fly you have to pass your attachment/s filename & its base64 encoded chunk data as an associative array [Optional]
     */
-    public function send_transactional_template($data)
+    public function send_transactional_template($model)
     {
-        $id = $data['id'];
-        unset($data['id']);
+        $this->validateMailDataModel($model);
 
-        return $this->put('template/'.$id, json_encode($data));
+        $id = $model->getId();
+
+        return $this->put('template/'.$id, json_encode($model->toArray()));
     }
 
     /*
